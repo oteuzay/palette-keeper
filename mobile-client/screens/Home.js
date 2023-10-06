@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, FlatList } from "react-native";
-import { API_URL } from "../configs/constants";
 
 import PalettePreview from "../components/PalettePreview";
 
@@ -9,7 +8,7 @@ export default function Home(props) {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchColorPalettes = useCallback(async () => {
-    const result = await fetch(API_URL);
+    const result = await fetch(process.env.EXPO_PUBLIC_API_URL);
 
     if (result.ok) {
       const palletes = await result.json();
