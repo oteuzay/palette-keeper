@@ -6,6 +6,7 @@ import PalettePreview from "../components/PalettePreview";
 
 export default function Home(props) {
   const [colorPalettes, setColorPalettes] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchColorPalettes = useCallback(async () => {
     const result = await fetch(API_URL);
@@ -21,6 +22,15 @@ export default function Home(props) {
     fetchColorPalettes();
   }, []);
 
+  const handleRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await fetchColorPalettes();
+
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 1000);
+  }, []);
+
   return (
     <FlatList
       style={styles.list}
@@ -32,6 +42,8 @@ export default function Home(props) {
           colorPalette={item}
         />
       )}
+      refreshing={isRefreshing}
+      onRefresh={() => handleRefresh()}
     />
   );
 }
