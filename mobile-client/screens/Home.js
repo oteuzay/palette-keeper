@@ -5,6 +5,10 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import PalettePreview from "../components/PalettePreview";
 
 export default function Home(props) {
+  const newColorPalette = props.route.params
+    ? props.route.params.newColorPalette
+    : undefined;
+
   const [colorPalettes, setColorPalettes] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -31,6 +35,12 @@ export default function Home(props) {
     }, 1000);
   }, []);
 
+  useEffect(() => {
+    if (newColorPalette) {
+      setColorPalettes((palletes) => [newColorPalette, ...palletes]);
+    }
+  }, [newColorPalette]);
+
   return (
     <FlatList
       style={styles.list}
@@ -50,7 +60,7 @@ export default function Home(props) {
             props.navigation.navigate("ColorPaletteModal");
           }}
         >
-          <Text>Add Custom Palette</Text>
+          <Text style={styles.buttonText}>Add Custom Palette</Text>
         </TouchableOpacity>
       }
     />
@@ -61,5 +71,11 @@ const styles = StyleSheet.create({
   list: {
     padding: 10,
     backgroundColor: "white",
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "teal",
+    marginBottom: 10,
   },
 });
