@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Text } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import PalettePreview from "../components/PalettePreview";
 
@@ -43,6 +44,15 @@ export default function Home(props) {
       )}
       refreshing={isRefreshing}
       onRefresh={() => handleRefresh()}
+      ListHeaderComponent={
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate("ColorPaletteModal");
+          }}
+        >
+          <Text>Add Custom Palette</Text>
+        </TouchableOpacity>
+      }
     />
   );
 }
